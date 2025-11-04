@@ -1,0 +1,35 @@
+ProyectoDulcinea/
++-- .gradle/
++-- .idea/
++-- app/
+¦   +-- src/
+¦   ¦   +-- main/
+¦   ¦   ¦   +-- java/cl/duoc/dulcinea/app/
+¦   ¦   ¦   ¦   +-- database/
+¦   ¦   ¦   ¦   ¦   +-- dao/
+¦   ¦   ¦   ¦   ¦   +-- entity/
+¦   ¦   ¦   ¦   +-- model/
+¦   ¦   ¦   ¦   +-- repository/
+¦   ¦   ¦   ¦   +-- state/
+¦   ¦   ¦   ¦   +-- ui/
+¦   ¦   ¦   ¦   ¦   +-- components/
+¦   ¦   ¦   ¦   ¦   +-- navigation/
+¦   ¦   ¦   ¦   ¦   +-- screens/
+¦   ¦   ¦   ¦   ¦   ¦   +-- admin/
+¦   ¦   ¦   ¦   ¦   ¦   +-- auth/
+¦   ¦   ¦   ¦   ¦   ¦   +-- client/
+¦   ¦   ¦   ¦   ¦   +-- theme/
+¦   ¦   ¦   ¦   +-- viewmodel/
+¦   ¦   ¦   +-- res/
+¦   ¦   ¦       +-- drawable/
+¦   ¦   ¦       +-- mipmap-*/        # Iconos para distintas resoluciones
+¦   ¦   ¦       +-- values/          # Colores, strings, estilos, etc.
+¦   ¦   ¦       +-- xml/             # Configuraciones adicionales
+¦   ¦   +-- androidTest/java/...     # Pruebas instrumentadas
+¦   ¦   +-- test/java/...            # Pruebas unitarias
+¦   +-- build.gradle
+¦   +-- AndroidManifest.xml
++-- gradle/
+¦   +-- wrapper/
++-- build.gradle
++-- settings.gradle
