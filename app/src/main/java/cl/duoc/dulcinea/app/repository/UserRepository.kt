@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class UserRepository(private val database: AppDatabase) {
-
     suspend fun loginUser(user: User) {
         val userEntity = UserEntity(
             email = user.email,

@@ -200,7 +200,7 @@ fun ProfileScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // BOTÓN DE CERRAR SESIÓN
+            // BOTÓN CERRAR SESIÓN
             if (currentUser != null) {
                 Button(
                     onClick = {

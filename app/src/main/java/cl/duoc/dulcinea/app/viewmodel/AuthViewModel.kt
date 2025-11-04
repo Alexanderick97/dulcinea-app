@@ -38,13 +38,13 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Validación en tiempo real del email
+    // Validación del email
     fun validateEmailInRealTime(email: String) {
         val result = Validators.validateEmail(email)
         _emailError.value = if (!result.isValid) result.errorMessage else null
     }
 
-    // Validación en tiempo real de la contraseña
+    // Validación ede la contraseña
     fun validatePasswordInRealTime(password: String) {
         val result = Validators.validatePassword(password)
         _passwordError.value = if (!result.isValid) result.errorMessage else null
@@ -55,7 +55,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             _isLoading.value = true
             _loginError.value = null
 
-            // Validar ambos campos
             val emailValidation = Validators.validateEmail(email)
             val passwordValidation = Validators.validatePassword(password)
 

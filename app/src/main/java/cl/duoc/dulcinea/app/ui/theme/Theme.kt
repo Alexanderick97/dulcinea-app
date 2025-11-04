@@ -5,7 +5,7 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-// PALETA DE COLORES PASTEL PARA DULCINEA
+// PALETA DE COLORES
 private val PastelColorScheme = lightColorScheme(
     primary = Color(0xFFFFB7C5), // Rosa pastel
     onPrimary = Color(0xFF000000),

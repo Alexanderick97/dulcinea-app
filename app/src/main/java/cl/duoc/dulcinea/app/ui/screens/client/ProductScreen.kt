@@ -97,7 +97,7 @@ fun ProductScreen(
                         ProductCard(
                             product = product,
                             onAddToCart = {
-                                actualProductViewModel.addToCart(it) // Usar actualProductViewModel
+                                actualProductViewModel.addToCart(it)
                             }
                         )
                     }

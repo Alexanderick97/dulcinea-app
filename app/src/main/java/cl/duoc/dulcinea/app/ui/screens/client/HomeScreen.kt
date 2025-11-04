@@ -69,7 +69,7 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // TARJETA DE BIENVENIDA
+            // BIENVENIDA
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -195,7 +195,7 @@ fun HomeScreen(
                     }
                 }
 
-                // BOTÓN CARRITO (si hay items)
+                // BOTÓN CARRITO
                 if (cartItemCount > 0) {
                     Card(
                         modifier = Modifier
@@ -237,7 +237,6 @@ fun HomeScreen(
                 }
             }
 
-            // INFORMACIÓN ADICIONAL
             Card(
                 modifier = Modifier
                     .fillMaxWidth()

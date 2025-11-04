@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 class ProductRepository(private val database: AppDatabase) {
 
     suspend fun insertSampleProducts() {
-        // Verificar si ya existen productos para no duplicar
+        // Verificar si existen productos para no duplicar
         val existingProducts = database.productDao().getAllProducts()
         if (existingProducts is List<*> && existingProducts.isNotEmpty()) {
             return

@@ -17,7 +17,6 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     private val _products = MutableStateFlow<List<Product>>(emptyList())
     val products: StateFlow<List<Product>> = _products
 
-    // USAR EL ESTADO COMPARTIDO para el carrito
     val cartItems: StateFlow<List<Product>> = SharedCartState.cartItems
 
     private val _cartItemCount = MutableStateFlow(0)
@@ -53,7 +52,7 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     fun addToCart(product: Product) {
         viewModelScope.launch {
             if (product.stock > 0) {
-                SharedCartState.addToCart(product) // USAR ESTADO COMPARTIDO
+                SharedCartState.addToCart(product)
                 repository.updateProductStock(product.id, product.stock - 1)
             }
         }
@@ -61,22 +60,22 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
 
     fun removeFromCart(product: Product) {
         viewModelScope.launch {
-            SharedCartState.removeFromCart(product) // USAR ESTADO COMPARTIDO
+            SharedCartState.removeFromCart(product)
             repository.updateProductStock(product.id, product.stock + 1)
         }
     }
 
     fun clearCart() {
         viewModelScope.launch {
-            SharedCartState.clearCart() // USAR ESTADO COMPARTIDO
+            SharedCartState.clearCart()
         }
     }
 
     fun getCartTotal(): Double {
-        return SharedCartState.getCartTotal() // USAR ESTADO COMPARTIDO
+        return SharedCartState.getCartTotal()
     }
 
     fun getCartItemCount(): Int {
-        return SharedCartState.getCartItemCount() // USAR ESTADO COMPARTIDO
+        return SharedCartState.getCartItemCount()
     }
 }

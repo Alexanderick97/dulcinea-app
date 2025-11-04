@@ -66,7 +66,7 @@ object Validators {
         }
     }
 
-    // Validación de teléfono (opcional para futuro)
+    // Validación de teléfono
     fun validatePhone(phone: String): ValidationResult {
         return when {
             phone.isEmpty() -> ValidationResult(isValid = true) // Opcional
@@ -102,7 +102,7 @@ object Validators {
     }
 }
 
-// Clase para representar el resultado de la validación
+// Clase para representar la validación
 data class ValidationResult(
     val isValid: Boolean,
     val errorMessage: String? = null

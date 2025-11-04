@@ -20,7 +20,6 @@ interface UserDao {
 
     @Query("SELECT * FROM users LIMIT 1")
     fun getCurrentUser(): Flow<UserEntity?>
-
     @Query("UPDATE users SET profileImageUri = :imageUri WHERE email = :email")
     suspend fun updateProfileImage(email: String, imageUri: String?)
 }

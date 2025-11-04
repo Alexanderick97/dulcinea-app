@@ -11,19 +11,15 @@ object SharedCartState {
     fun addToCart(product: Product) {
         _cartItems.value = _cartItems.value + product
     }
-
     fun removeFromCart(product: Product) {
         _cartItems.value = _cartItems.value - product
     }
-
     fun clearCart() {
         _cartItems.value = emptyList()
     }
-
     fun getCartTotal(): Double {
         return _cartItems.value.sumOf { it.price }
     }
-
     fun getCartItemCount(): Int {
         return _cartItems.value.size
     }

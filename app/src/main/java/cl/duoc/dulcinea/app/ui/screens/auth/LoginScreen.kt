@@ -148,7 +148,7 @@ fun LoginScreen(
             )
         }
 
-        // Mostrar error general de login
+        // Mostrar error login
         if (loginError != null && emailError == null && passwordError == null) {
             Text(
                 text = loginError!!,

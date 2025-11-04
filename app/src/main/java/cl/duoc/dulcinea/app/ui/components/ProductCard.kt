@@ -41,7 +41,7 @@ fun ProductCard(
         label = "elevation_animation"
     )
 
-    // Animación de escala para stock agotado
+    // Animación para stock agotado
     val alpha by animateDpAsState(
         targetValue = if (product.stock > 0) 8.dp else 4.dp,
         animationSpec = tween(durationMillis = 500),

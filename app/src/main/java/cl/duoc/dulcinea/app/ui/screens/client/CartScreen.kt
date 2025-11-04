@@ -236,7 +236,7 @@ fun EmptyCartState(modifier: Modifier = Modifier) {
     }
 }
 
-// FUNCIÓN MEJORADA PARA NOTIFICACIONES
+// FUNCIÓN NOTIFICACIONES
 private fun showPurchaseNotification(context: Context, total: Double, itemCount: Int) {
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
@@ -254,7 +254,7 @@ private fun showPurchaseNotification(context: Context, total: Double, itemCount:
             ).show()
         }
     } else {
-        // Android 12 o inferior - no necesita permiso explícito
+        // Android 12 o inferior no necesita permiso explícito
         createAndShowNotification(context, notificationManager, total, itemCount)
     }
 }
@@ -266,7 +266,7 @@ private fun createAndShowNotification(
     total: Double,
     itemCount: Int
 ) {
-    // Crear canal de notificación (requerido para Android 8.0+)
+    // Crear canal de notificación
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channel = NotificationChannel(
             "dulcinea_purchases",

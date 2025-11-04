@@ -74,6 +74,7 @@ fun DulcineaAppBar(
                 }
             }
         },
+
         actions = actions,
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,

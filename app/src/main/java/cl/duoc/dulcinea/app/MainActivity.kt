@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import cl.duoc.dulcinea.app.ui.navigation.AppNavigation
 import cl.duoc.dulcinea.app.ui.theme.DulcineaAppTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
