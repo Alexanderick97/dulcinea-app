@@ -50,9 +50,11 @@ fun ProfileScreen(
             selectedImageUri = uri
             usingSimulatedPhoto = false
             currentSimulatedPhoto = null
-            Toast.makeText(context, "Imagen seleccionada de galería!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Imagen seleccionada de galería!",
+                Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(context, "No se seleccionó imagen", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "No se seleccionó imagen",
+                Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -151,7 +153,8 @@ fun ProfileScreen(
                 Button(
                     onClick = {
                         galleryLauncher.launch(
-                            PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            PickVisualMediaRequest(ActivityResultContracts.
+                            PickVisualMedia.ImageOnly)
                         )
                     },
                     modifier = Modifier.fillMaxWidth(0.8f)

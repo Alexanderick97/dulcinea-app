@@ -21,6 +21,10 @@ class UserRepository(private val database: AppDatabase) {
         database.userDao().deleteAllUsers()
     }
 
+    suspend fun clearSession() {
+        database.userDao().deleteAllUsers()
+    }
+
     fun getCurrentUser(): Flow<User?> {
         return database.userDao().getCurrentUser().map { entity ->
             entity?.let {

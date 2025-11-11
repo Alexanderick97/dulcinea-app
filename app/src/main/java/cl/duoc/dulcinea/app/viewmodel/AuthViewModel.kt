@@ -8,6 +8,7 @@ import cl.duoc.dulcinea.app.model.User
 import cl.duoc.dulcinea.app.utils.Validators
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,7 +24,6 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    // Estados individuales para validación en tiempo real
     private val _emailError = MutableStateFlow<String?>(null)
     val emailError: StateFlow<String?> = _emailError
 
@@ -38,13 +38,11 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    // Validación del email
     fun validateEmailInRealTime(email: String) {
         val result = Validators.validateEmail(email)
         _emailError.value = if (!result.isValid) result.errorMessage else null
     }
 
-    // Validación ede la contraseña
     fun validatePasswordInRealTime(password: String) {
         val result = Validators.validatePassword(password)
         _passwordError.value = if (!result.isValid) result.errorMessage else null
@@ -81,8 +79,16 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     fun logout() {
         viewModelScope.launch {
-            repository.logoutUser()
-            _currentUser.value = null
+            _isLoading.value = true
+            try {
+                repository.clearSession()
+                _currentUser.value = null
+                clearErrors()
+            } catch (e: Exception) {
+                _loginError.value = "Error al cerrar sesión: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
@@ -90,5 +96,14 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
         _loginError.value = null
         _emailError.value = null
         _passwordError.value = null
+    }
+
+    fun checkSessionState() {
+        viewModelScope.launch {
+            val currentUser = repository.getCurrentUser().first()
+            if (currentUser == null) {
+                _currentUser.value = null
+            }
+        }
     }
 }

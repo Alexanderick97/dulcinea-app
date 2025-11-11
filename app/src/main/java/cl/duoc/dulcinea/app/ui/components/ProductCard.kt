@@ -34,7 +34,7 @@ fun ProductCard(
     product: Product,
     onAddToCart: (Product) -> Unit = {}
 ) {
-    // Animación de elevación al hacer hover (simulado)
+    // Animación de elevación al hacer hover
     val elevation by animateDpAsState(
         targetValue = if (product.stock > 0) 8.dp else 4.dp,
         animationSpec = tween(durationMillis = 300),

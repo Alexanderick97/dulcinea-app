@@ -7,10 +7,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import cl.duoc.dulcinea.app.ui.navigation.AppNavigation
 import cl.duoc.dulcinea.app.ui.theme.DulcineaAppTheme
-
+import cl.duoc.dulcinea.app.viewmodel.AuthViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +20,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DulcineaAppTheme {
+                val authViewModel: AuthViewModel = viewModel()
+
+                LaunchedEffect(Unit) {
+                    authViewModel.checkSessionState()
+                }
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

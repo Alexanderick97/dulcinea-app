@@ -15,11 +15,12 @@ interface UserDao {
     @Query("SELECT * FROM users WHERE email = :email")
     suspend fun getUserByEmail(email: String): UserEntity?
 
+    @Query("SELECT * FROM users LIMIT 1")
+    fun getCurrentUser(): Flow<UserEntity?>
+
     @Query("DELETE FROM users")
     suspend fun deleteAllUsers()
 
-    @Query("SELECT * FROM users LIMIT 1")
-    fun getCurrentUser(): Flow<UserEntity?>
     @Query("UPDATE users SET profileImageUri = :imageUri WHERE email = :email")
     suspend fun updateProfileImage(email: String, imageUri: String?)
 }
