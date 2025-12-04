@@ -3,8 +3,8 @@
 ## Evaluación Parcial 2 - Desarrollo de Aplicaciones Móviles (DSY1105)
 
 ### 👥 Integrantes del Equipo
-- **Nombre Estudiante 1** - Rol: Desarrollo frontend y UI/UX
-- **Nombre Estudiante 2** - Rol: Desarrollo backend y base de datos
+- **Erick Gonzalez** - Rol: Desarrollo frontend y UI/UX
+- **Erick Gonzalez** - Rol: Desarrollo backend y base de datos
 
 ### 📱 Funcionalidades Implementadas
 
