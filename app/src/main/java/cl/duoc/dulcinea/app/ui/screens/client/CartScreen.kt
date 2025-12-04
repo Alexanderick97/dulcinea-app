@@ -236,17 +236,12 @@ fun EmptyCartState(modifier: Modifier = Modifier) {
     }
 }
 
-// FUNCIÓN NOTIFICACIONES
 private fun showPurchaseNotification(context: Context, total: Double, itemCount: Int) {
     val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-    // Verificar si tenemos permiso (Android 13+)
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         if (notificationManager.areNotificationsEnabled()) {
-            // Tenemos permiso, mostrar notificación
             createAndShowNotification(context, notificationManager, total, itemCount)
         } else {
-            // No tenemos permiso, mostrar Toast informativo
             android.widget.Toast.makeText(
                 context,
                 "¡Compra exitosa! Por favor, activa las notificaciones en ajustes para recibir confirmaciones futuras.",
@@ -254,19 +249,17 @@ private fun showPurchaseNotification(context: Context, total: Double, itemCount:
             ).show()
         }
     } else {
-        // Android 12 o inferior no necesita permiso explícito
         createAndShowNotification(context, notificationManager, total, itemCount)
     }
 }
 
-// Función auxiliar para crear y mostrar la notificación
 private fun createAndShowNotification(
     context: Context,
     notificationManager: NotificationManager,
     total: Double,
     itemCount: Int
 ) {
-    // Crear canal de notificación
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channel = NotificationChannel(
             "dulcinea_purchases",
@@ -280,7 +273,6 @@ private fun createAndShowNotification(
         notificationManager.createNotificationChannel(channel)
     }
 
-    // Crear la notificación
     val notification = NotificationCompat.Builder(context, "dulcinea_purchases")
         .setContentTitle("🎉 ¡Compra Exitosa!")
         .setContentText("Has comprado $itemCount productos por un total de $${String.format("%.2f", total)}")
@@ -295,6 +287,5 @@ private fun createAndShowNotification(
         .setPriority(NotificationCompat.PRIORITY_HIGH)
         .build()
 
-    // Mostrar la notificación
     notificationManager.notify(System.currentTimeMillis().toInt(), notification)
 }

@@ -23,6 +23,7 @@ class MainActivity : ComponentActivity() {
                 val authViewModel: AuthViewModel = viewModel()
 
                 LaunchedEffect(Unit) {
+                    authViewModel.clearSessionOnStart()
                     authViewModel.checkSessionState()
                 }
 

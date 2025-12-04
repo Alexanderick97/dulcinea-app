@@ -100,10 +100,42 @@ object Validators {
             )
         }
     }
-}
 
-// Clase para representar la validación
-data class ValidationResult(
-    val isValid: Boolean,
-    val errorMessage: String? = null
-)
+    // Validación de dirección
+    fun validateAddress(address: String): ValidationResult {
+        return when {
+            address.isEmpty() -> ValidationResult(
+                isValid = false,
+                errorMessage = "La dirección es requerida"
+            )
+            address.length < 10 -> ValidationResult(
+                isValid = false,
+                errorMessage = "La dirección debe tener al menos 10 caracteres"
+            )
+            address.length > 200 -> ValidationResult(
+                isValid = false,
+                errorMessage = "La dirección es demasiado larga"
+            )
+            else -> ValidationResult(isValid = true)
+        }
+    }
+
+    // Validación de confirmación de contraseña
+    fun validatePasswordConfirmation(password: String, confirmPassword: String): ValidationResult {
+        return when {
+            confirmPassword.isEmpty() -> ValidationResult(
+                isValid = false,
+                errorMessage = "Confirma tu contraseña"
+            )
+            password != confirmPassword -> ValidationResult(
+                isValid = false,
+                errorMessage = "Las contraseñas no coinciden"
+            )
+            else -> ValidationResult(isValid = true)
+        }
+    }
+    data class ValidationResult(
+        val isValid: Boolean,
+        val errorMessage: String? = null
+    )
+}

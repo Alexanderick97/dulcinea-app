@@ -26,9 +26,9 @@ class ProductRepository(private val database: AppDatabase) {
             ),
             ProductEntity(
                 id = 2,
-                name = "Empanada de Manjar",
-                description = "Empanada dulce rellena de manjar",
-                price = 1200.0,
+                name = "Chilenitos",
+                description = "Dulce Tipico Chilenito",
+                price = 1000.0,
                 stock = 20
             ),
             ProductEntity(

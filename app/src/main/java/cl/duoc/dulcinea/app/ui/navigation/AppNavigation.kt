@@ -12,10 +12,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cl.duoc.dulcinea.app.ui.screens.auth.LoginScreen
+import cl.duoc.dulcinea.app.ui.screens.auth.RegisterScreen
 import cl.duoc.dulcinea.app.ui.screens.client.HomeScreen
 import cl.duoc.dulcinea.app.ui.screens.client.ProductScreen
 import cl.duoc.dulcinea.app.ui.screens.client.ProfileScreen
 import cl.duoc.dulcinea.app.ui.screens.client.CartScreen
+import cl.duoc.dulcinea.app.ui.screens.client.ApiTestScreen  // NUEVO IMPORT
 import cl.duoc.dulcinea.app.ui.theme.DulcineaAppTheme
 import cl.duoc.dulcinea.app.viewmodel.AuthViewModel
 import cl.duoc.dulcinea.app.viewmodel.ProductViewModel
@@ -30,27 +32,44 @@ fun AppNavigation() {
         navController = navController,
         startDestination = "login"
     ) {
+        // PANTALLA DE LOGIN
         composable("login") {
             LoginScreen(
                 authViewModel = authViewModel,
                 onLoginSuccess = {
-                    navController.navigate("home") {
+                    val destination = if (authViewModel.currentUser.value?.role == "admin") {
+                        "admin"
+                    } else {
+                        "home"
+                    }
+                    navController.navigate(destination) {
                         popUpTo("login") { inclusive = true }
                     }
                 },
-                onNavigateToRegister = { navController.navigate("register") }
+                onNavigateToRegister = {
+                    navController.navigate("register")
+                }
             )
         }
 
+        // PANTALLA DE REGISTRO
         composable("register") {
-            Text(
-                text = "Pantalla de Registro - En construcción",
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentSize(Alignment.Center)
+            RegisterScreen(
+                authViewModel = authViewModel,
+                onRegisterSuccess = {
+                    navController.navigate("home") {
+                        popUpTo("register") { inclusive = true }
+                    }
+                },
+                onNavigateToLogin = {
+                    navController.navigate("login") {
+                        popUpTo("register") { inclusive = true }
+                    }
+                }
             )
         }
 
+        // PANTALLA DE INICIO
         composable("home") {
             HomeScreen(
                 navController = navController,
@@ -59,6 +78,7 @@ fun AppNavigation() {
             )
         }
 
+        // PANTALLA DE PRODUCTOS
         composable("products") {
             ProductScreen(
                 navController = navController,
@@ -66,6 +86,7 @@ fun AppNavigation() {
             )
         }
 
+        // PANTALLA DE PERFIL
         composable("profile") {
             ProfileScreen(
                 navController = navController,
@@ -73,19 +94,29 @@ fun AppNavigation() {
             )
         }
 
+        // PANTALLA DE CARRITO
         composable("cart") {
             CartScreen(navController = navController)
         }
 
+        // NUEVA PANTALLA: TEST API EXTERNA
+        composable("api_test") {
+            ApiTestScreen(
+                navController = navController
+            )
+        }
+
+        // PANTALLA DE ADMIN
         composable("admin") {
             Text(
-                text = "Panel de Administración",
+                text = "Panel de Administración - En construcción",
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center)
             )
         }
 
+        // PANTALLA DE CLIENTE
         composable("client") {
             Text(
                 text = "Panel de Cliente",
@@ -96,7 +127,6 @@ fun AppNavigation() {
         }
     }
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

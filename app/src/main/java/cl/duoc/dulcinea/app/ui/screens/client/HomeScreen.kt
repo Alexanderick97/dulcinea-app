@@ -6,10 +6,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.CloudDownload  // NUEVO
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color  // NUEVO
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -258,6 +260,26 @@ fun HomeScreen(
                         textAlign = TextAlign.Justify
                     )
                 }
+            }
+
+            // NUEVO BOTÓN SIMPLE PARA API TEST
+            Spacer(modifier = Modifier.height(8.dp))
+            Button(
+                onClick = { navController.navigate("api_test") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF2196F3)
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.CloudDownload,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Probar API Externa")
             }
         }
     }
