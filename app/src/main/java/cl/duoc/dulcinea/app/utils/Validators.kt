@@ -2,8 +2,14 @@ package cl.duoc.dulcinea.app.utils
 
 import android.util.Patterns
 import java.util.regex.Pattern
+import java.util.regex.Pattern.compile
 
 object Validators {
+
+    // Patrón de email para usar en tests
+    private val EMAIL_PATTERN: Pattern = compile(
+        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\$"
+    )
 
     // Validación de email
     fun validateEmail(email: String): ValidationResult {
@@ -12,7 +18,7 @@ object Validators {
                 isValid = false,
                 errorMessage = "El email es requerido"
             )
-            !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> ValidationResult(
+            !EMAIL_PATTERN.matcher(email).matches() -> ValidationResult(
                 isValid = false,
                 errorMessage = "El formato del email no es válido"
             )

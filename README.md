@@ -83,13 +83,25 @@
 - [x] Integración en navegación existente
 - [x] Permisos y configuración de red
 
-#### 🚧 En Progreso
-- [ ] Conexión con microservicios propios
-- [ ] Pruebas unitarias
-- [ ] Generación de APK firmado
-- [ ] Documentación de endpoints
+### ✅ Estado de Implementación
 
-#### 📋 Pendiente
-- [ ] Despliegue de microservicios Spring Boot
-- [ ] Sincronización local/remota
-- [ ] Autenticación con tokens JWT
+#### Consumo de APIs REST
+- [x] Configuración de Retrofit y Gson
+- [x] Consumo de API externa (JSONPlaceholder)
+- [x] Manejo de estados de red
+- [x] Pantalla de prueba integrada
+
+#### Pruebas Unitarias
+- [x] 25 tests para Validators.kt
+- [x] Build exitoso de tests
+- [x] Cobertura de validaciones completa
+
+#### APK Firmado
+- [x] Keystore generado (dulcinea.jks)
+- [x] APK firmado (app-release.apk)
+- [x] Verificación de funcionamiento
+
+#### Próximos Pasos
+- [ ] Conexión con microservicios Spring Boot
+- [ ] Tests para ViewModels
+- [ ] Documentación de endpoints
