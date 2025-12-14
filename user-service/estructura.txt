@@ -1,0 +1,36 @@
+userservice/
++-- .gitattributes
++-- .gitignore
++-- HELP.md
++-- build.gradle.kts
++-- settings.gradle.kts
++-- gradlew
++-- gradlew.bat
+¦
++-- .gradle/
++-- .idea/
++-- build/
+¦   +-- reports/
+¦       +-- problems/
+¦           +-- problems-report.html
+¦
++-- gradle/
+¦   +-- wrapper/
+¦       +-- gradle-wrapper.jar
+¦       +-- gradle-wrapper.properties
+¦
++-- src/
+    +-- main/
+    ¦   +-- java/
+    ¦   ¦   +-- cl/duoc/dulcinea/userservice/
+    ¦   ¦       +-- UserServiceApplication.java
+    ¦   ¦
+    ¦   +-- resources/
+    ¦       +-- application.properties
+    ¦       +-- static/
+    ¦       +-- templates/
+    ¦
+    +-- test/
+        +-- java/
+            +-- cl/duoc/dulcinea/userservice/
+                +-- UserServiceApplicationTests.java

@@ -8,19 +8,15 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface UserApiService {
-
-    @POST("users/register")
+    @POST("api/users/register")
     suspend fun register(@Body user: ApiUser): Response<ApiResponse>
-
-    @POST("users/login")
+    @POST("api/users/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
-    @GET("users/{id}")
+    @GET("api/users/{id}")
     suspend fun getUserById(@Path("id") id: Int): Response<ApiUser>
-
-    @PUT("users/{id}")
+    @PUT("api/users/{id}")
     suspend fun updateUser(@Path("id") id: Int, @Body user: ApiUser): Response<ApiUser>
-
-    @GET("users/email/{email}")
+    @GET("api/users/email/{email}")
     suspend fun getUserByEmail(@Path("email") email: String): Response<ApiUser>
 }

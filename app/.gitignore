@@ -1,1 +1,14 @@
 /build
+# Backend Spring Boot
+user-service/.gradle/
+user-service/.idea/
+user-service/build/
+user-service/gradle/
+user-service/gradlew.bat
+user-service/gradlew
+user-service/*.iml
+
+# Datos de H2 (base de datos)
+*.db
+*.log
+*.trace

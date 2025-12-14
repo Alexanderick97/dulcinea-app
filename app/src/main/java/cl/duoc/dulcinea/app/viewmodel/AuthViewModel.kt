@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import cl.duoc.dulcinea.app.network.RetrofitInstance
+import cl.duoc.dulcinea.app.network.model.LoginRequest
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -77,7 +79,7 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
 
     fun login(email: String, password: String) {
         viewModelScope.launch {
-            println("DEBUG_LOGIN: Iniciando login para $email")
+            println("DEBUG_LOGIN: Iniciando login para $email con BACKEND")
             _isLoading.value = true
             _loginError.value = null
 
@@ -88,27 +90,70 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             _passwordError.value = passwordValidation.errorMessage
 
             if (emailValidation.isValid && passwordValidation.isValid) {
-                println("DEBUG_LOGIN: Buscando usuario $email en BD...")
-                val existingUser = repository.getUserByEmail(email)
-                println("DEBUG_LOGIN: Usuario encontrado: $existingUser")
+                try {
+                    // 1. INTENTAR CON BACKEND PRIMERO
+                    println("DEBUG_LOGIN: Intentando conexión con backend...")
+                    val loginRequest = LoginRequest(email, password)
+                    val response = RetrofitInstance.userApiService.login(loginRequest)
 
-                if (existingUser != null) {
-                    if (existingUser.password == password) {
-                        println("DEBUG_LOGIN: Password correcto, estableciendo sesión...")
-                        // Usar el NUEVO método con isLoggedIn
+                    if (response.isSuccessful) {
+                        val loginResponse = response.body()
+                        println("DEBUG_LOGIN: Respuesta del backend: $loginResponse")
+
+                        if (loginResponse != null && loginResponse.success) {
+                            // ✅ BACKEND FUNCIONA - Usuario autenticado
+                            val apiUser = loginResponse.user!!
+                            println("DEBUG_LOGIN: ✅ Login exitoso con BACKEND")
+
+                            // Convertir ApiUser a User de tu app
+                            val user = User(
+                                email = apiUser.email,
+                                password = apiUser.password,
+                                name = apiUser.name,
+                                address = apiUser.address,
+                                role = apiUser.role
+                            )
+
+                            // Guardar localmente también para acceso offline
+                            repository.setCurrentUser(user)
+                            _currentUser.value = user
+                        } else {
+                            // Backend responde pero con error
+                            _loginError.value = loginResponse?.message ?: "Credenciales inválidas"
+                        }
+                    } else {
+                        // Error HTTP (404, 500, etc.)
+                        println("DEBUG_LOGIN: ❌ Error HTTP: ${response.code()}")
+
+                        // FALLBACK: Intentar con base de datos local
+                        println("DEBUG_LOGIN: Intentando con base de datos local...")
+                        val existingUser = repository.getUserByEmail(email)
+
+                        if (existingUser != null && existingUser.password == password) {
+                            repository.setCurrentUser(existingUser)
+                            _currentUser.value = existingUser
+                            println("DEBUG_LOGIN: ✅ Login exitoso con BASE DE DATOS LOCAL")
+                        } else {
+                            _loginError.value = "Error de conexión al servidor. Usa credenciales locales."
+                        }
+                    }
+                } catch (e: Exception) {
+                    // Error de conexión (red, timeout, etc.)
+                    println("DEBUG_LOGIN: ❌ Error de conexión: ${e.message}")
+
+                    // FALLBACK: Base de datos local
+                    println("DEBUG_LOGIN: Intentando con base de datos local (fallback)...")
+                    val existingUser = repository.getUserByEmail(email)
+
+                    if (existingUser != null && existingUser.password == password) {
                         repository.setCurrentUser(existingUser)
                         _currentUser.value = existingUser
-                        println("DEBUG_LOGIN: Sesión establecida exitosamente")
+                        println("DEBUG_LOGIN: ✅ Login exitoso con FALLBACK LOCAL")
                     } else {
-                        println("DEBUG_LOGIN: Password INCORRECTO")
-                        _loginError.value = "Contraseña incorrecta"
+                        _loginError.value = "Error de conexión. Verifica tu internet o usa credenciales locales."
                     }
-                } else {
-                    println("DEBUG_LOGIN: Usuario NO encontrado en BD")
-                    _loginError.value = "Usuario no registrado"
                 }
             } else {
-                println("DEBUG_LOGIN: Validaciones fallaron")
                 _loginError.value = "Por favor corrige los errores en el formulario"
             }
 
@@ -142,30 +187,107 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 confirmPasswordValidation.isValid &&
                 addressValidation.isValid
             ) {
-                // Crear usuario con rol "client" por defecto
-                val user = User(
-                    email = email,
-                    password = password,
-                    name = name,
-                    address = address,
-                    role = "client"
-                )
+                try {
+                    // 1. INTENTAR REGISTRAR EN BACKEND
+                    println("DEBUG_REGISTER: Intentando registro en backend...")
 
-                // Intentar registrar en la base de datos
-                val success = repository.registerUser(user)
+                    // Crear objeto ApiUser para el backend
+                    val apiUser = cl.duoc.dulcinea.app.network.model.ApiUser(
+                        email = email,
+                        password = password,
+                        name = name,
+                        address = address,
+                        role = "client"
+                    )
 
-                if (success) {
-                    // OBTENER USUARIO RECIÉN REGISTRADO DE LA BD
-                    val registeredUser = repository.getUserByEmail(email)
-                    if (registeredUser != null) {
-                        // Guardar como usuario actual
-                        repository.setCurrentUser(registeredUser)
-                        _currentUser.value = registeredUser
+                    val response = RetrofitInstance.userApiService.register(apiUser)
+
+                    if (response.isSuccessful) {
+                        val apiResponse = response.body()
+                        println("DEBUG_REGISTER: Respuesta del backend: $apiResponse")
+
+                        if (apiResponse != null && apiResponse.success) {
+                            // ✅ REGISTRO EN BACKEND EXITOSO
+                            println("DEBUG_REGISTER: ✅ Registro exitoso en BACKEND")
+
+                            // Crear usuario local también
+                            val user = User(
+                                email = email,
+                                password = password,
+                                name = name,
+                                address = address,
+                                role = "client"
+                            )
+
+                            // Guardar localmente
+                            val localSuccess = repository.registerUser(user)
+
+                            if (localSuccess) {
+                                // Establecer como usuario actual
+                                repository.setCurrentUser(user)
+                                _currentUser.value = user
+                            } else {
+                                // Backend ok pero local falló (raro)
+                                _registerError.value = "Registro exitoso pero error local"
+                            }
+                        } else {
+                            // Backend rechazó el registro
+                            _registerError.value = apiResponse?.message ?: "Error en el registro"
+                        }
                     } else {
-                        _registerError.value = "Error al obtener usuario registrado"
+                        // Error HTTP del backend
+                        println("DEBUG_REGISTER: ❌ Error HTTP: ${response.code()}")
+
+                        // FALLBACK: Registrar solo localmente
+                        println("DEBUG_REGISTER: Registrando solo en base de datos local...")
+                        val user = User(
+                            email = email,
+                            password = password,
+                            name = name,
+                            address = address,
+                            role = "client"
+                        )
+
+                        val success = repository.registerUser(user)
+
+                        if (success) {
+                            val registeredUser = repository.getUserByEmail(email)
+                            if (registeredUser != null) {
+                                repository.setCurrentUser(registeredUser)
+                                _currentUser.value = registeredUser
+                            } else {
+                                _registerError.value = "Error al obtener usuario registrado"
+                            }
+                        } else {
+                            _registerError.value = "El email ya está registrado localmente"
+                        }
                     }
-                } else {
-                    _registerError.value = "El email ya está registrado"
+                } catch (e: Exception) {
+                    // Error de conexión
+                    println("DEBUG_REGISTER: ❌ Error de conexión: ${e.message}")
+
+                    // FALLBACK: Registrar solo localmente
+                    val user = User(
+                        email = email,
+                        password = password,
+                        name = name,
+                        address = address,
+                        role = "client"
+                    )
+
+                    val success = repository.registerUser(user)
+
+                    if (success) {
+                        val registeredUser = repository.getUserByEmail(email)
+                        if (registeredUser != null) {
+                            repository.setCurrentUser(registeredUser)
+                            _currentUser.value = registeredUser
+                        } else {
+                            _registerError.value = "Error al obtener usuario registrado"
+                        }
+                    } else {
+                        _registerError.value = "Error de conexión. Usuario guardado solo localmente."
+                    }
                 }
             } else {
                 _registerError.value = "Por favor corrige los errores en el formulario"

@@ -1,35 +1,53 @@
-ProyectoDulcinea/
-+-- .gradle/
-+-- .idea/
-+-- app/
-¦   +-- src/
-¦   ¦   +-- main/
-¦   ¦   ¦   +-- java/cl/duoc/dulcinea/app/
-¦   ¦   ¦   ¦   +-- database/
-¦   ¦   ¦   ¦   ¦   +-- dao/
-¦   ¦   ¦   ¦   ¦   +-- entity/
-¦   ¦   ¦   ¦   +-- model/
-¦   ¦   ¦   ¦   +-- repository/
-¦   ¦   ¦   ¦   +-- state/
-¦   ¦   ¦   ¦   +-- ui/
-¦   ¦   ¦   ¦   ¦   +-- components/
-¦   ¦   ¦   ¦   ¦   +-- navigation/
-¦   ¦   ¦   ¦   ¦   +-- screens/
-¦   ¦   ¦   ¦   ¦   ¦   +-- admin/
-¦   ¦   ¦   ¦   ¦   ¦   +-- auth/
-¦   ¦   ¦   ¦   ¦   ¦   +-- client/
-¦   ¦   ¦   ¦   ¦   +-- theme/
-¦   ¦   ¦   ¦   +-- viewmodel/
-¦   ¦   ¦   +-- res/
-¦   ¦   ¦       +-- drawable/
-¦   ¦   ¦       +-- mipmap-*/        # Iconos para distintas resoluciones
-¦   ¦   ¦       +-- values/          # Colores, strings, estilos, etc.
-¦   ¦   ¦       +-- xml/             # Configuraciones adicionales
-¦   ¦   +-- androidTest/java/...     # Pruebas instrumentadas
-¦   ¦   +-- test/java/...            # Pruebas unitarias
-¦   +-- build.gradle
-¦   +-- AndroidManifest.xml
-+-- gradle/
-¦   +-- wrapper/
-+-- build.gradle
-+-- settings.gradle
+Dulcinea/
++-- android-app/                 #Aplicación móvil
+¦   +-- app/
+¦       +-- src/
+¦           +-- main/
+¦               +-- java/
+¦               ¦   +-- cl.duoc.dulcinea.app/
+¦               ¦       +-- database/
+¦               ¦       ¦   +-- dao/
+¦               ¦       ¦   +-- entity/
+¦               ¦       +-- model/
+¦               ¦       +-- network/
+¦               ¦       ¦   +-- api/
+¦               ¦       ¦   +-- model/
+¦               ¦       +-- repository/
+¦               ¦       +-- state/
+¦               ¦       +-- ui/
+¦               ¦       ¦   +-- components/
+¦               ¦       ¦   +-- navigation/
+¦               ¦       ¦   +-- screens/
+¦               ¦       ¦       +-- auth/
+¦               ¦       ¦       +-- client/
+¦               ¦       +-- utils/
+¦               ¦       +-- viewmodel/
+¦               ¦
+¦               +-- res/
+¦
++-- backend/
+    +-- user-service/            #Microservicio de usuarios
+        +-- build.gradle.kts
+        +-- settings.gradle.kts
+        +-- gradlew
+        +-- gradlew.bat
+        ¦
+        +-- src/
+            +-- main/
+            ¦   +-- java/
+            ¦   ¦   +-- cl.duoc.dulcinea.userservice/
+            ¦   ¦       +-- controller/
+            ¦   ¦       +-- service/
+            ¦   ¦       +-- repository/
+            ¦   ¦       +-- model/
+            ¦   ¦       +-- dto/
+            ¦   ¦       +-- config/
+            ¦   ¦       +-- UserServiceApplication.java
+            ¦   ¦
+            ¦   +-- resources/
+            ¦       +-- application.properties
+            ¦
+            +-- test/
+                +-- java/
+                    +-- cl.duoc.dulcinea.userservice/
+                        +-- UserServiceApplicationTests.java
