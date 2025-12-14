@@ -1,107 +1,164 @@
 # 🍬 Dulcinea App
 
-## Evaluación Parcial 2 - Desarrollo de Aplicaciones Móviles (DSY1105)
+## Proyecto Académico – Desarrollo de Aplicaciones Móviles (DSY1105)
 
-### 👥 Integrantes del Equipo
-- **Erick Gonzalez** - Rol: Desarrollo frontend y UI/UX
-- **Erick Gonzalez** - Rol: Desarrollo backend y base de datos
+Aplicación móvil de e-commerce para pastelería, desarrollada como proyecto full‑stack, integrando una **app Android** con **microservicios Spring Boot**.
 
-### 📱 Funcionalidades Implementadas
+---
 
-#### ✅ Requisitos Cumplidos
-- **Interfaz visual organizada** con navegación clara
-- **Formularios validados** con retroalimentación visual en tiempo real
-- **Validaciones manejadas desde lógica** (ViewModel)
-- **Animaciones funcionales** en productos y transiciones
-- **Estructura modular** con patrón MVVM
-- **Persistencia local** con Room Database
-- **Dos recursos nativos integrados**: Cámara/Galería y Notificaciones
+## 👥 Integrantes
+- **Erick González** – Desarrollo Frontend Android, Backend Spring Boot y Base de Datos
 
-#### 🎯 Características Técnicas
-- **Arquitectura**: MVVM (Model-View-ViewModel)
-- **Base de datos local**: Room con entidades User y Product
-- **Consumo de APIs**: Retrofit para servicios REST
-- **Serialización**: Gson para JSON
-- **Concurrencia**: Coroutines para operaciones asíncronas
-- **Navegación**: Jetpack Navigation Compose
-- **UI**: Jetpack Compose con Material Design 3
-- **Recursos nativos**:
-    - Cámara y selección de galería (ProfileScreen)
-    - Notificaciones del sistema (CartScreen)
-    - Permisos de internet y red
+> Proyecto desarrollado de forma individual.
 
-### 🔗 Consumo de APIs REST
+---
 
-#### API Externa (Prueba de Concepto)
-- **Endpoint**: `GET https://jsonplaceholder.typicode.com/posts`
-- **Propósito**: Validar configuración de Retrofit y flujo de datos
-- **Tecnología**: Retrofit 2.9.0 + Gson + Coroutines
-- **Ubicación en código**: `network/api/ExternalApiService.kt`
+## 🧱 Arquitectura General
 
-#### Nuestros Microservicios (Spring Boot) - En desarrollo
-- **User Service**: `http://10.0.2.2:8081/api/users/`
-    - `POST /register` - Registro de usuarios
-    - `POST /login` - Autenticación
-    - `GET /{id}` - Obtener usuario por ID
-    - `PUT /{id}` - Actualizar perfil
+```
+APP ANDROID (Frontend)
+• Kotlin + Jetpack Compose
+• Arquitectura MVVM + Repository
+• Room Database (persistencia local)
+• Retrofit (consumo de APIs REST)
 
-- **Product Service**: `http://10.0.2.2:8082/api/products/`
-    - `GET /` - Listar todos los productos
-    - `GET /{id}` - Obtener producto por ID
-    - `POST /` - Crear nuevo producto
-    - `PUT /{id}` - Actualizar producto
-    - `DELETE /{id}` - Eliminar producto
+        │ HTTP / JSON
+        ▼
 
-#### Arquitectura de Red
-    App → ViewModel → Repository → [Room Database + Retrofit Services]
-    ↳ API Externa (JSONPlaceholder)
-    ↳ User Service (Spring Boot)
-    ↳ Product Service (Spring Boot)
+BACKEND SPRING BOOT (Microservicios)
+• User Service (puerto 8081)
+• Spring Boot + Java 17
+• Spring Data JPA + H2 Database
+• API REST con CORS habilitado
+```
 
-#### Manejo de Estados
-- **Loading**: Indicador durante peticiones HTTP
-- **Error**: Mensajes para errores de conexión/timeout
-- **Success**: Mostrar datos obtenidos de APIs
-- **Offline**: Cache local con Room Database
+---
 
-### 🧪 Pruebas Unitarias
-- **Herramientas**: JUnit 4, MockK, Coroutines Test
-- **Cobertura**: ViewModels, Validators, Repositories
-- **Ubicación**: `app/src/test/java/cl/duoc/dulcinea/app/`
+## 📱 Funcionalidades Implementadas
 
-### 📦 Generación de APK Firmado
-- **Keystore**: `dulcinea.jks` (incluido en `/release`)
-- **APK firmado**: `app-release.apk`
-- **Pasos**: Build → Generate Signed Bundle / APK en Android Studio
+### Frontend – App Android
+- Autenticación de usuarios (login y registro)
+- Validaciones en tiempo real desde ViewModel
+- Catálogo de productos con animaciones
+- Carrito de compras con persistencia local
+- Perfil de usuario con cámara y galería
+- Notificaciones del sistema
+- Consumo de API externa (JSONPlaceholder)
+- Conexión con backend propio (User Service)
+- Arquitectura MVVM completamente aplicada
+- Persistencia local con Room Database
 
-### 📊 Estado del Proyecto
+### Backend – Spring Boot
+- Microservicio **User Service**
+- Gestión completa de usuarios
+- API REST funcional
+- Base de datos H2 en memoria
+- Consola H2 habilitada
+- Configuración de CORS para Android
 
-#### ✅ Completado
-- [x] Consumo de API externa (JSONPlaceholder)
-- [x] Configuración completa de Retrofit
-- [x] Manejo de estados (loading, error, success)
-- [x] Integración en navegación existente
-- [x] Permisos y configuración de red
+---
 
-### ✅ Estado de Implementación
+## 📡 Endpoints Implementados
 
-#### Consumo de APIs REST
-- [x] Configuración de Retrofit y Gson
-- [x] Consumo de API externa (JSONPlaceholder)
-- [x] Manejo de estados de red
-- [x] Pantalla de prueba integrada
+### User Service – `http://localhost:8081/api/users`
 
-#### Pruebas Unitarias
-- [x] 25 tests para Validators.kt
-- [x] Build exitoso de tests
-- [x] Cobertura de validaciones completa
+| Método | Endpoint | Descripción |
+|------|--------|------------|
+| GET | `/health` | Health check del servicio |
+| POST | `/register` | Registro de usuario |
+| POST | `/login` | Autenticación |
+| GET | `/` | Listar usuarios |
+| GET | `/{id}` | Obtener usuario por ID |
+| GET | `/email/{email}` | Obtener usuario por email |
+| PUT | `/{id}` | Actualizar usuario |
 
-#### APK Firmado
-- [x] Keystore generado (dulcinea.jks)
-- [x] APK firmado (app-release.apk)
-- [x] Verificación de funcionamiento
+### API Externa (Prueba de Concepto)
 
-#### Próximos Pasos
-- [ ] Conexión con microservicios Spring Boot
-- [ ] Tests para ViewModels
-- [ ] Documentación de endpoints
+| Método | Endpoint | Uso |
+|------|--------|-----|
+| GET | `https://jsonplaceholder.typicode.com/posts` | Validar Retrofit |
+
+---
+
+## 🔧 Tecnologías Utilizadas
+
+### Android
+- Kotlin
+- Jetpack Compose + Material 3
+- MVVM
+- Room
+- Retrofit 2.9.0
+- Gson
+- Coroutines
+- Navigation Compose
+
+### Backend
+- Java 17
+- Spring Boot
+- Spring Data JPA
+- H2 Database
+- Gradle Kotlin DSL
+
+---
+
+## 🧪 Pruebas
+
+- 25 pruebas unitarias para validadores
+- JUnit 4 + MockK
+- Tests ejecutados exitosamente
+- Cobertura en lógica de validación
+
+---
+
+## 📦 APK Firmado
+
+- Keystore: `dulcinea.jks`
+- APK generado: `app-release.apk`
+- Proceso realizado desde Android Studio
+
+---
+
+## 🚀 Cómo Ejecutar el Proyecto
+
+### Prerrequisitos
+- Java 17+
+- Android Studio
+- IntelliJ IDEA
+- Postman (opcional)
+
+### Backend – User Service
+
+```bash
+cd user-service
+./gradlew bootRun
+```
+
+O ejecutar directamente desde IntelliJ:
+- `UserServiceApplication.java`
+
+### Frontend – Android
+- Abrir proyecto en Android Studio
+- Ejecutar en emulador o dispositivo físico
+
+---
+
+## 📊 Estado del Proyecto
+
+### Completado
+- Arquitectura definida
+- App Android funcional
+- Backend User Service operativo
+- Comunicación App ↔ Backend
+- APK firmado
+
+### Próximos Pasos
+- Integración de Product Service
+- Tests de ViewModel
+- Documentación OpenAPI
+
+---
+
+## 📌 Notas
+
+Proyecto con fines académicos. La estructura y decisiones técnicas están orientadas a demostrar buenas prácticas de desarrollo móvil y backend.
+
