@@ -6,9 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -98,5 +101,34 @@ public class UserController {
         response.put("service", "User Service");
         response.put("port", "8081");
         return ResponseEntity.ok(response);
+    }
+
+    // 8. Recuperación de contraseña
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Map<String, Object>> forgotPassword(@RequestBody Map<String, String> request) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            String email = request.get("email");
+
+            // Verificar si el usuario existe
+            Optional<User> userOptional = userService.getUserByEmail(email);
+
+            if (userOptional.isPresent()) {
+                // En producción aquí enviarías un email real
+                // Por ahora solo simulamos
+                response.put("success", true);
+                response.put("message", "Se ha enviado un enlace de recuperación a " + email);
+                response.put("timestamp", new Date().toString());
+                return ResponseEntity.ok(response);
+            } else {
+                response.put("success", false);
+                response.put("message", "No existe un usuario con ese email");
+                return ResponseEntity.badRequest().body(response);
+            }
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "Error: " + e.getMessage());
+            return ResponseEntity.internalServerError().body(response);
+        }
     }
 }

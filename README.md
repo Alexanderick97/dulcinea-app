@@ -2,12 +2,12 @@
 
 ## Proyecto Académico – Desarrollo de Aplicaciones Móviles (DSY1105)
 
-Aplicación móvil de e-commerce para pastelería, desarrollada como proyecto full‑stack, integrando una **app Android** con **microservicios Spring Boot**.
+Aplicación móvil de e-commerce para pastelería, desarrollada como proyecto full-stack, integrando una **app Android** con **microservicios Spring Boot**.
 
 ---
 
 ## 👥 Integrantes
-- **Erick González** – Desarrollo Frontend Android, Backend Spring Boot y Base de Datos
+- **Erick González** – Desarrollo Frontend Android, Backend Spring Boot y Base de Datos  
 
 > Proyecto desarrollado de forma individual.
 
@@ -21,12 +21,12 @@ APP ANDROID (Frontend)
 • Arquitectura MVVM + Repository
 • Room Database (persistencia local)
 • Retrofit (consumo de APIs REST)
-
+• 25+ pruebas unitarias
         │ HTTP / JSON
         ▼
-
 BACKEND SPRING BOOT (Microservicios)
-• User Service (puerto 8081)
+• User Service (puerto 8081) - Gestión de usuarios
+• Product Service (puerto 8082) - Catálogo de productos
 • Spring Boot + Java 17
 • Spring Data JPA + H2 Database
 • API REST con CORS habilitado
@@ -36,22 +36,30 @@ BACKEND SPRING BOOT (Microservicios)
 
 ## 📱 Funcionalidades Implementadas
 
-### Frontend – App Android
-- Autenticación de usuarios (login y registro)
+### ✅ Frontend – App Android
+- **Autenticación completa**: Login, Registro y **Recuperación de Contraseña**
 - Validaciones en tiempo real desde ViewModel
 - Catálogo de productos con animaciones
 - Carrito de compras con persistencia local
-- Perfil de usuario con cámara y galería
-- Notificaciones del sistema
+- Perfil de usuario con cámara y galería (recurso nativo)
+- Notificaciones del sistema (recurso nativo)
 - Consumo de API externa (JSONPlaceholder)
-- Conexión con backend propio (User Service)
+- Conexión con backend propio (User Service y Product Service)
 - Arquitectura MVVM completamente aplicada
 - Persistencia local con Room Database
+- **POO Avanzado**: Herencia, Polimorfismo, Interfaces, Clases Abstractas
 
-### Backend – Spring Boot
-- Microservicio **User Service**
-- Gestión completa de usuarios
-- API REST funcional
+### ✅ Backend – Spring Boot
+- **User Service** (`http://localhost:8081`)
+  - Registro, Login y Recuperación de contraseña
+  - Gestión completa de usuarios
+  - API REST funcional
+
+- **Product Service** (`http://localhost:8082`)
+  - Catálogo de productos
+  - CRUD completo
+  - Búsqueda y filtros
+
 - Base de datos H2 en memoria
 - Consola H2 habilitada
 - Configuración de CORS para Android
@@ -67,10 +75,20 @@ BACKEND SPRING BOOT (Microservicios)
 | GET | `/health` | Health check del servicio |
 | POST | `/register` | Registro de usuario |
 | POST | `/login` | Autenticación |
+| POST | `/forgot-password` | Recuperación de contraseña |
 | GET | `/` | Listar usuarios |
 | GET | `/{id}` | Obtener usuario por ID |
 | GET | `/email/{email}` | Obtener usuario por email |
 | PUT | `/{id}` | Actualizar usuario |
+
+### Product Service – `http://localhost:8082/api/products`
+
+| Método | Endpoint | Descripción |
+|------|--------|------------|
+| GET | `/health` | Health check |
+| GET | `/` | Obtener todos los productos |
+| POST | `/` | Crear producto |
+| GET | `/{id}` | Obtener producto por ID |
 
 ### API Externa (Prueba de Concepto)
 
@@ -80,41 +98,26 @@ BACKEND SPRING BOOT (Microservicios)
 
 ---
 
-## 🔧 Tecnologías Utilizadas
+## 🧪 Pruebas Unitarias
 
-### Android
-- Kotlin
-- Jetpack Compose + Material 3
-- MVVM
-- Room
-- Retrofit 2.9.0
-- Gson
-- Coroutines
-- Navigation Compose
+- **25 pruebas unitarias** ejecutadas exitosamente
+- Cobertura en lógica de validación y modelos
+- Framework: JUnit 4 + Kotlin
+- Ejecución mediante Gradle
 
-### Backend
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- H2 Database
-- Gradle Kotlin DSL
-
----
-
-## 🧪 Pruebas
-
-- 25 pruebas unitarias para validadores
-- JUnit 4 + MockK
-- Tests ejecutados exitosamente
-- Cobertura en lógica de validación
+```bash
+./gradlew test
+BUILD SUCCESSFUL
+```
 
 ---
 
 ## 📦 APK Firmado
 
-- Keystore: `dulcinea.jks`
-- APK generado: `app-release.apk`
-- Proceso realizado desde Android Studio
+- **Keystore:** `dulcinea.jks`
+- **APK:** `app-release.apk`
+- **Proceso:** Firma desde Android Studio
+- **Ubicación:** `/app/release/app-release.apk`
 
 ---
 
@@ -122,43 +125,106 @@ BACKEND SPRING BOOT (Microservicios)
 
 ### Prerrequisitos
 - Java 17+
-- Android Studio
+- Android Studio (Electric Eel o superior)
 - IntelliJ IDEA
 - Postman (opcional)
 
-### Backend – User Service
+### Backend – Microservicios
 
+**User Service**
 ```bash
 cd user-service
 ./gradlew bootRun
+# http://localhost:8081
 ```
 
-O ejecutar directamente desde IntelliJ:
-- `UserServiceApplication.java`
+**Product Service**
+```bash
+cd product-service
+./gradlew bootRun
+# http://localhost:8082
+```
+
+**Consolas H2**
+- User Service: `http://localhost:8081/h2-console`
+- Product Service: `http://localhost:8082/h2-console`
 
 ### Frontend – Android
-- Abrir proyecto en Android Studio
+- Abrir el proyecto en Android Studio
 - Ejecutar en emulador o dispositivo físico
 
----
-
-## 📊 Estado del Proyecto
-
-### Completado
-- Arquitectura definida
-- App Android funcional
-- Backend User Service operativo
-- Comunicación App ↔ Backend
-- APK firmado
-
-### Próximos Pasos
-- Integración de Product Service
-- Tests de ViewModel
-- Documentación OpenAPI
+**Credenciales de prueba**
+- Email: `cliente@dulcinea.cl`
+- Password: `cliente123`
 
 ---
 
-## 📌 Notas
+## 🛠 Tecnologías Utilizadas
 
-Proyecto con fines académicos. La estructura y decisiones técnicas están orientadas a demostrar buenas prácticas de desarrollo móvil y backend.
+### Android
+- Kotlin
+- Jetpack Compose + Material 3
+- Arquitectura MVVM
+- Room Database
+- Retrofit 2.9.0 + Gson
+- Coroutines
+- Navigation Compose
 
+### Backend
+- Java 17
+- Spring Boot 3.x
+- Spring Data JPA
+- H2 Database
+- Gradle Kotlin DSL
+
+### Herramientas
+- Android Studio
+- IntelliJ IDEA
+- Postman
+- Git + GitHub
+
+---
+
+## 🎯 Cumplimiento de Requisitos Académicos
+
+- ✅ POO con arquitectura correcta  
+- ✅ Persistencia local y externa  
+- ✅ Integración de recursos nativos  
+- ✅ App móvil funcional con microservicios  
+- ✅ Pruebas unitarias  
+- ✅ APK firmado + documentación  
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+Dulcinea/
+├── android-app/
+│   └── app/src/main/java/cl/duoc/dulcinea/app/
+│       ├── ui/
+│       ├── viewmodel/
+│       ├── repository/
+│       ├── network/
+│       ├── model/
+│       └── database/
+├── user-service/
+├── product-service/
+└── README.md
+```
+
+---
+
+## 👨‍💻 Autor
+
+**Erick González**  
+Desarrollo Full Stack  
+Android + Spring Boot  
+Documentación y pruebas
+
+---
+
+## 📄 Licencia
+
+Proyecto académico desarrollado para la evaluación  
+**DSY1105 – Desarrollo de Aplicaciones Móviles**

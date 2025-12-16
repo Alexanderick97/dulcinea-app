@@ -11,13 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import cl.duoc.dulcinea.app.ui.screens.auth.ForgotPasswordScreen
 import cl.duoc.dulcinea.app.ui.screens.auth.LoginScreen
 import cl.duoc.dulcinea.app.ui.screens.auth.RegisterScreen
-import cl.duoc.dulcinea.app.ui.screens.client.HomeScreen
-import cl.duoc.dulcinea.app.ui.screens.client.ProductScreen
-import cl.duoc.dulcinea.app.ui.screens.client.ProfileScreen
-import cl.duoc.dulcinea.app.ui.screens.client.CartScreen
-import cl.duoc.dulcinea.app.ui.screens.client.ApiTestScreen  // NUEVO IMPORT
+import cl.duoc.dulcinea.app.ui.screens.client.*
 import cl.duoc.dulcinea.app.ui.theme.DulcineaAppTheme
 import cl.duoc.dulcinea.app.viewmodel.AuthViewModel
 import cl.duoc.dulcinea.app.viewmodel.ProductViewModel
@@ -48,6 +45,9 @@ fun AppNavigation() {
                 },
                 onNavigateToRegister = {
                     navController.navigate("register")
+                },
+                onNavigateToForgotPassword = {  // NUEVO
+                    navController.navigate("forgot_password")
                 }
             )
         }
@@ -66,6 +66,13 @@ fun AppNavigation() {
                         popUpTo("register") { inclusive = true }
                     }
                 }
+            )
+        }
+
+        // NUEVA PANTALLA: RECUPERACIÓN DE CONTRASEÑA
+        composable("forgot_password") {
+            ForgotPasswordScreen(
+                navController = navController
             )
         }
 
@@ -99,9 +106,16 @@ fun AppNavigation() {
             CartScreen(navController = navController)
         }
 
-        // NUEVA PANTALLA: TEST API EXTERNA
+        // PANTALLA: TEST API EXTERNA
         composable("api_test") {
             ApiTestScreen(
+                navController = navController
+            )
+        }
+
+        // PANTALLA: DEMOSTRACIÓN POO AVANZADO
+        composable("polymorphism_demo") {
+            PolymorphismDemoScreen(
                 navController = navController
             )
         }

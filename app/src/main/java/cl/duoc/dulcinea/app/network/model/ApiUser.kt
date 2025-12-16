@@ -29,12 +29,3 @@ data class LoginResponse(
     @SerializedName("user")
     val user: ApiUser? = null
 )
-
-data class ApiResponse(
-    @SerializedName("success")
-    val success: Boolean,
-    @SerializedName("message")
-    val message: String,
-    @SerializedName("data")
-    val data: Any? = null
-)

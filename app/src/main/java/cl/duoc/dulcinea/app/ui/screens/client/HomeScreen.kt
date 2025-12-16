@@ -26,6 +26,12 @@ import cl.duoc.dulcinea.app.viewmodel.ProductViewModel
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.IconButton
+import cl.duoc.dulcinea.app.network.RetrofitInstance
+import kotlinx.coroutines.launch
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Code
+import androidx.compose.material.icons.filled.Settings
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
@@ -36,6 +42,40 @@ fun HomeScreen(
     val actualProductViewModel = productViewModel ?: viewModel()
     val currentUser by authViewModel.currentUser.collectAsState()
     val cartItemCount by actualProductViewModel.cartItemCount.collectAsState()
+
+    // 🔍 VERIFICACIÓN DE PRODUCTOS DESDE BACKEND
+    LaunchedEffect(Unit) {
+        println("🏠 HomeScreen - Verificando conexiones...")
+        try {
+            // 1. Probar Product Service
+            val productResponse = RetrofitInstance.productApiService.getHealth()
+            if (productResponse.isSuccessful) {
+                val health = productResponse.body()
+                println("🌐 Product Service: ${health?.get("status") ?: "UNKNOWN"}")
+            } else {
+                println("⚠️ Product Service Error: ${productResponse.code()}")
+            }
+
+            // 2. Probar obtener productos
+            val productsResponse = RetrofitInstance.productApiService.getAllProducts()
+            if (productsResponse.isSuccessful) {
+                val apiResponse = productsResponse.body()
+                val productCount = apiResponse?.data?.size ?: 0
+                println("🛒 Productos disponibles: $productCount")
+            }
+
+            // 3. Probar User Service
+            try {
+                val userResponse = RetrofitInstance.userApiService.getUserById(1)
+                println("👤 User Service: Código ${userResponse.code()}")
+            } catch (e: Exception) {
+                println("ℹ️ User Service: ${e.message}")
+            }
+
+        } catch (e: Exception) {
+            println("❌ Error de conexión: ${e.message}")
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -248,6 +288,7 @@ fun HomeScreen(
                 Column(
                     modifier = Modifier.padding(16.dp)
                 ) {
+
                     Text(
                         text = "Sobre Dulcinea",
                         style = MaterialTheme.typography.titleMedium,
@@ -262,7 +303,7 @@ fun HomeScreen(
                 }
             }
 
-            // NUEVO BOTÓN SIMPLE PARA API TEST
+            // BOTÓN SIMPLE PARA API TEST
             Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = { navController.navigate("api_test") },
@@ -281,10 +322,91 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Probar API Externa")
             }
+
+            // NUEVO BOTÓN PARA VERIFICAR CONEXIÓN BACKEND
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Variable para controlar la verificación
+            var isCheckingConnection by remember { mutableStateOf(false) }
+
+            Button(
+                onClick = {
+                    isCheckingConnection = true
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF4CAF50)  // Verde
+                ),
+                enabled = !isCheckingConnection
+            ) {
+                if (isCheckingConnection) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        strokeWidth = 2.dp,
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Verificando...")
+                } else {
+                    Icon(
+                        imageVector = Icons.Filled.CheckCircle,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Verificar Conexión Backend")
+                }
+            }
+
+            if (isCheckingConnection) {
+                LaunchedEffect(Unit) {
+                    println("🔍 Verificando conexión backend...")
+                    try {
+                        val response = RetrofitInstance.productApiService.getHealth()
+                        if (response.isSuccessful) {
+                            val body = response.body()
+                            println("✅ Backend conectado: ${body?.get("status")}")
+                            // Puedes mostrar un Toast aquí si quieres
+                            // Toast.makeText(context, "✅ Backend conectado", Toast.LENGTH_SHORT).show()
+                        } else {
+                            println("⚠️ Backend error: ${response.code()}")
+                        }
+                    } catch (e: Exception) {
+                        println("❌ Error: ${e.message}")
+                    } finally {
+                        // Restaurar después de 1.5 segundos
+                        delay(1500)
+                        isCheckingConnection = false
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Button(
+                onClick = { navController.navigate("polymorphism_demo") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF9C27B0)  // Púrpura
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Code,
+                    contentDescription = null,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Demostrar POO Avanzado")
+            }
         }
     }
 }
 
+/*
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun HomeScreenPreview() {
@@ -292,3 +414,4 @@ fun HomeScreenPreview() {
         HomeScreen()
     }
 }
+*/

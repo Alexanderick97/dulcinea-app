@@ -36,7 +36,8 @@ import cl.duoc.dulcinea.app.viewmodel.AuthViewModel
 fun LoginScreen(
     authViewModel: AuthViewModel = viewModel(),
     onLoginSuccess: () -> Unit = {},
-    onNavigateToRegister: () -> Unit = {}
+    onNavigateToRegister: () -> Unit = {},
+    onNavigateToForgotPassword: () -> Unit = {}  // NUEVO PARÁMETRO
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -173,6 +174,18 @@ fun LoginScreen(
             }
         }
 
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // NUEVO: Enlace para recuperar contraseña
+        TextButton(
+            onClick = onNavigateToForgotPassword,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        ) {
+            Text("¿Olvidaste tu contraseña?")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         TextButton(onClick = onNavigateToRegister) {
             Text("¿No tienes cuenta? Regístrate")
         }
@@ -185,7 +198,8 @@ fun LoginScreenPreview() {
     DulcineaAppTheme {
         LoginScreen(
             onLoginSuccess = { },
-            onNavigateToRegister = { }
+            onNavigateToRegister = { },
+            onNavigateToForgotPassword = { }  // NUEVO
         )
     }
 }

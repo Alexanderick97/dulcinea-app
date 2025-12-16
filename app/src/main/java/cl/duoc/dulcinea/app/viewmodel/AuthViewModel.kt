@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import cl.duoc.dulcinea.app.network.RetrofitInstance
+import cl.duoc.dulcinea.app.network.model.ForgotPasswordRequest
 import cl.duoc.dulcinea.app.network.model.LoginRequest
 
 class AuthViewModel(application: Application) : AndroidViewModel(application) {
@@ -294,6 +295,40 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
             }
 
             _isLoading.value = false
+        }
+    }
+
+    fun requestPasswordReset(email: String) {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _loginError.value = null  // Reutilizamos loginError para mensajes
+
+            try {
+                println("DEBUG: Enviando solicitud de recuperación para: $email")
+
+                val request = ForgotPasswordRequest(email = email)
+                val response = RetrofitInstance.userApiService.forgotPassword(request)
+
+                if (response.isSuccessful) {
+                    val apiResponse = response.body()
+                    if (apiResponse != null && apiResponse.success) {
+                        _loginError.value = "✅ ${apiResponse.message}"
+                        println("DEBUG: Recuperación exitosa: ${apiResponse.message}")
+                    } else {
+                        _loginError.value = "❌ ${apiResponse?.message ?: "Error desconocido"}"
+                    }
+                } else {
+                    // Intentar leer el mensaje de error del cuerpo
+                    val errorBody = response.errorBody()?.string()
+                    _loginError.value = "❌ Error: ${response.code()} - ${errorBody ?: response.message()}"
+                }
+            } catch (e: Exception) {
+                _loginError.value = "❌ Error de conexión: ${e.message}"
+                println("DEBUG: Error en recuperación: ${e.message}")
+                e.printStackTrace()
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 

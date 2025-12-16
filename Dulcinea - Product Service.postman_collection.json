@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "8fd8eca6-e33d-450f-b14b-b38376da05ae",
+		"name": "Dulcinea - Product Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50805008",
+		"_collection_link": "https://erick-mies1-6729115.postman.co/workspace/Erick-Gonzalez's-Workspace~d754f2bb-b476-4990-82ee-4644c3995074/collection/50805008-8fd8eca6-e33d-450f-b14b-b38376da05ae?action=share&source=collection_link&creator=50805008"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/products/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"products",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener productos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/api/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"api",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Poblar Datos",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

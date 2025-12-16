@@ -1,53 +1,52 @@
 Dulcinea/
-+-- android-app/                 #Aplicación móvil
++-- android-app/
 ¦   +-- app/
 ¦       +-- src/
 ¦           +-- main/
 ¦               +-- java/
 ¦               ¦   +-- cl.duoc.dulcinea.app/
-¦               ¦       +-- database/
-¦               ¦       ¦   +-- dao/
-¦               ¦       ¦   +-- entity/
-¦               ¦       +-- model/
-¦               ¦       +-- network/
-¦               ¦       ¦   +-- api/
-¦               ¦       ¦   +-- model/
-¦               ¦       +-- repository/
-¦               ¦       +-- state/
 ¦               ¦       +-- ui/
+¦               ¦       ¦   +-- screens/
+¦               ¦       ¦   ¦   +-- auth/
+¦               ¦       ¦   ¦   +-- client/
 ¦               ¦       ¦   +-- components/
 ¦               ¦       ¦   +-- navigation/
-¦               ¦       ¦   +-- screens/
-¦               ¦       ¦       +-- auth/
-¦               ¦       ¦       +-- client/
-¦               ¦       +-- utils/
 ¦               ¦       +-- viewmodel/
+¦               ¦       +-- repository/
+¦               ¦       +-- network/
+¦               ¦       ¦   +-- api/
+¦               ¦       +-- model/
+¦               ¦       +-- database/
+¦               ¦           +-- dao/
+¦               ¦           +-- entity/
 ¦               ¦
 ¦               +-- res/
 ¦
-+-- backend/
-    +-- user-service/            #Microservicio de usuarios
-        +-- build.gradle.kts
-        +-- settings.gradle.kts
-        +-- gradlew
-        +-- gradlew.bat
-        ¦
-        +-- src/
-            +-- main/
-            ¦   +-- java/
-            ¦   ¦   +-- cl.duoc.dulcinea.userservice/
-            ¦   ¦       +-- controller/
-            ¦   ¦       +-- service/
-            ¦   ¦       +-- repository/
-            ¦   ¦       +-- model/
-            ¦   ¦       +-- dto/
-            ¦   ¦       +-- config/
-            ¦   ¦       +-- UserServiceApplication.java
-            ¦   ¦
-            ¦   +-- resources/
-            ¦       +-- application.properties
++-- user-service/
+¦   +-- src/
+¦       +-- main/
+¦           +-- java/
+¦           ¦   +-- cl.duoc.dulcinea.userservice/
+¦           ¦       +-- controller/
+¦           ¦       +-- service/
+¦           ¦       +-- repository/
+¦           ¦       +-- model/
+¦           ¦       +-- dto/
+¦           ¦       +-- UserServiceApplication.java
+¦           ¦
+¦           +-- resources/
+¦               +-- application.properties
+¦
++-- product-service/
+    +-- src/
+        +-- main/
+            +-- java/
+            ¦   +-- cl.duoc.dulcinea.productservice/
+            ¦       +-- controller/
+            ¦       +-- service/
+            ¦       +-- repository/
+            ¦       +-- model/
+            ¦       +-- ProductServiceApplication.java
             ¦
-            +-- test/
-                +-- java/
-                    +-- cl.duoc.dulcinea.userservice/
-                        +-- UserServiceApplicationTests.java
+            +-- resources/
+                +-- application.properties
